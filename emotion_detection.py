@@ -9,7 +9,7 @@ def emotion_detector(text_to_analyse):
             "text": text_to_analyse
         }
     }
-
+    
     response = requests.post(url, headers=headers, json=input_data)
 
     if response.status_code == 200:
@@ -20,6 +20,6 @@ def emotion_detector(text_to_analyse):
 
 # test
 if __name__ == "__main__":
-    text = "I am feeling excited about the final project!"
+    text = "I love this new technology."
     result_text = emotion_detector(text)
     print("Emotion detected:", result_text)
