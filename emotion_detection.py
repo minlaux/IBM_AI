@@ -1,5 +1,5 @@
 import requests
-
+import json
 
 def emotion_detector(text_to_analyse):
     url = 'https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict'
@@ -16,12 +16,29 @@ def emotion_detector(text_to_analyse):
 
     if response.status_code == 200:
         result = response.json()
-        return result['text']
+        emotions = result.get('raw_emotion', {}).get('scores', {})
+        
+        dominant_emotion, _ = find_dominant_emotion(emotions)
+        
+        emotions['dominant_emotion'] = dominant_emotion
+        
+        return emotions
     else:
         return f"Emotion detection request failed with status code: {response.status_code}"
+
+
+
+def find_dominant_emotion(emotions):
+    # find emotion with highest score
+    dominant_emotion = max(emotions, key=emotions.get)
+    dominant_score = emotions[dominant_emotion]
+    
+    return dominant_emotion, dominant_score
+
 
 # test
 if __name__ == "__main__":
     text = "I love this new technology."
-    result_text = emotion_detector(text)
-    print("Emotion detected:", result_text)
+    emotion_scores = emotion_detector(text)
+    
+    print(emotion_scores)
