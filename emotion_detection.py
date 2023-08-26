@@ -38,7 +38,7 @@ def find_dominant_emotion(emotions):
 
 # test
 if __name__ == "__main__":
-    text = "I love this new technology."
+    text = "I am so happy doing this."
     emotion_scores = emotion_detector(text)
     
     print(emotion_scores)
